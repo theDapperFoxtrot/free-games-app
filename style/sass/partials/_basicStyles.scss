@@ -20,6 +20,7 @@ main {
   align-items: center;
   max-width: 640px;
   margin: 0 auto;
+  width: 80%;
 }
 
 h1 {
@@ -30,7 +31,7 @@ h1 {
 }
 
 h2{
-  font-size: 40rem;
+  font-size: 38rem;
   margin: 0;
   margin: 20px 0;
 }
@@ -46,6 +47,7 @@ p {
   margin: 0;
   margin-bottom: 20px;
   font-weight: 700;
+  max-width: 200px;
 }
 
 a {
@@ -60,7 +62,12 @@ a:hover {
   color: #4f02b4;
 }
 
+img {
+  max-width: 200px;
+}
 
 footer {
+  display: flex;
+  justify-content: center;
   text-align: center;
 }

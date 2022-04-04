@@ -38,7 +38,6 @@ app.showGames = function(data) {
         <h3>Available on: ${game.platforms}</h3>
         <a href=${game.open_giveaway_url}><img src="${game.image}"></a>
         <h3>Value: ${game.worth}</h3>
-        <p>${game.description}</p>
         <p>Became free on ${game.published_date}</p>
         <p>Claimed offers: ${game.users}</p>
         <a href=${game.open_giveaway_url}>LINK</a>
