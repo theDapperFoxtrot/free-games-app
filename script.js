@@ -1,50 +1,67 @@
 //url: `https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?&type=game&sort-by=popularity`
 
-const app = {};
+const app = {}
 
-app.apiQuery = "https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?type=game&sort-by=value";
-app.apiQuerySteam = "https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=steam&type=game&sort-by=value";
-app.apiQueryEpic = "https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=epic-games-store&type=game&sort-by=value";
-app.apiQueryUbisoft = "https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=ubisoft&type=game&sort-by=value";
-app.apiQueryXbox = "https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=xbox-one&platform=xbox-series-xs&type=game&sort-by=value";
-app.apiQueryGog = "https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=gog&type=game&sort-by=value";
+app.userInput = function() {
+    const platformChoice = document.querySelector('#platform')
+    document.querySelector('#platform').addEventListener('change', function() {
+        console.log(platformChoice.selectedOptions[0].value)
+        app.queryResolver(platformChoice.selectedOptions[0].value)
+    })
+}
 
+app.queryResolver = function(userChoice) {
+    if (userChoice === 'epic') {
+        app.apiQuery = 'https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=epic-games-store&type=game&sort-by=value'
+        app.fetchData(app.apiQuery)
+    } else if (userChoice === 'steam') {
+        app.apiQuery = 'https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=steam&type=game&sort-by=value'
+        app.fetchData(app.apiQuery)
+    } else if (userChoice === 'ubisoft') {
+        app.apiQuery = 'https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=ubisoft&type=game&sort-by=value'
+        app.fetchData(app.apiQuery)
+    } else if (userChoice === 'xbox') {
+        app.apiQuery = 'https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=xbox-one&platform=xbox-series-xs&type=game&sort-by=value'
+        app.fetchData(app.apiQuery)
+    } else if (userChoice === 'gog') {
+        app.apiQuery = 'https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?platform=gog&type=game&sort-by=value'
+        app.fetchData(app.apiQuery)
+    } else if (userChoice === 'all') {
+        app.apiQuery = 'https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?type=game&sort-by=value'
+        app.fetchData(app.apiQuery)
+    }
+}
 
+app.apiQuery = 'https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?type=game&sort-by=value'
 
-app.mainSpace = document.querySelector("#mainContent");
+app.mainSpace = document.querySelector('#mainContent')
 
-
-app.init = function() {
-    app.fetchData();
-};
-
-app.fetchData = function() {
-    app.url = new URL(app.apiQuery);
+app.fetchData = function(input) {
+    app.url = new URL(input)
     fetch(app.url)
     .then(function(response) {
         if (response.ok) {
-            return response.json();
+            return response.json()
         } else {
-            throw new Error("Something is broken. Check your code.")
+            throw new Error('Something is broken. Check your code.')
         }
     })
     .then(function(jsonResponse) {
-        console.log(jsonResponse);
-        app.showGames(jsonResponse);
+        app.showGames(jsonResponse)
     })
 }
 
 app.showGames = function(data) {
+    document.querySelector("#mainContent").innerHTML = ""
     data.forEach(function(game) {
-        console.log(game);
-        let thisGamehtml = document.getElementById("mainContent");
+        let thisGamehtml = document.getElementById('mainContent')
         thisGamehtml.innerHTML +=
         `
         <hr>
-        <div class="game">
+        <div class='game'>
         <a href=${game.open_giveaway_url}><h2>${game.title}</h2></a>
         <h3>Available on: ${game.platforms}</h3>
-        <a href=${game.open_giveaway_url}><img src="${game.image}"></a>
+        <a href=${game.open_giveaway_url}><img src='${game.image}' alt='${game.title}'></a>
         <h3>Value: ${game.worth}</h3>
         <p>Became free on: 
         ${game.published_date}</p>
@@ -55,8 +72,11 @@ app.showGames = function(data) {
         <p>How to claim: ${game.instructions}</p>
         </div>
         `
-    });
+    })
 }
 
-app.init();
+app.init = function() {
+    app.userInput()
+}
 
+app.init()
