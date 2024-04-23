@@ -1,14 +1,13 @@
-//url: `https://shrouded-bayou-34065.herokuapp.com/https://www.gamerpower.com/api/giveaways?&type=game&sort-by=popularity`
-
 const app = {};
 
 app.userInput = function () {
     const platformChoice = document.querySelector('#platform');
     document.querySelector('#platform').addEventListener('change', function () {
-        console.log(platformChoice.selectedOptions[0].value);
         app.queryResolver(platformChoice.selectedOptions[0].value);
     });
 };
+
+app.apiQuery = 'https://api.allorigins.win/raw?url=https://www.gamerpower.com/api/giveaways?&type=game&sort-by=value';
 
 app.queryResolver = function (userChoice) {
     if (userChoice === 'epic') {
@@ -16,9 +15,6 @@ app.queryResolver = function (userChoice) {
         app.fetchData(app.apiQuery);
     } else if (userChoice === 'steam') {
         app.apiQuery = 'https://api.allorigins.win/raw?url=https://www.gamerpower.com/api/giveaways?platform=steam&type=game&sort-by=value';
-        app.fetchData(app.apiQuery);
-    } else if (userChoice === 'ubisoft') {
-        app.apiQuery = 'https://api.allorigins.win/raw?url=https://www.gamerpower.com/api/giveaways?platform=ubisoft&type=game&sort-by=value';
         app.fetchData(app.apiQuery);
     } else if (userChoice === 'xbox') {
         app.apiQuery = 'https://api.allorigins.win/raw?url=https://www.gamerpower.com/api/giveaways?platform=xbox-one&platform=xbox-series-xs&type=game&sort-by=value';
@@ -31,10 +27,6 @@ app.queryResolver = function (userChoice) {
         app.fetchData(app.apiQuery);
     }
 };
-
-app.apiQuery = 'https://api.allorigins.win/raw?url=https://www.gamerpower.com/api/giveaways?type=game&sort-by=value';
-
-app.mainSpace = document.querySelector('#mainContent');
 
 app.fetchData = function (input) {
     app.url = new URL(input);
@@ -50,6 +42,8 @@ app.fetchData = function (input) {
             app.showGames(jsonResponse);
         });
 };
+
+app.mainSpace = document.querySelector('#mainContent');
 
 app.showGames = function (data) {
     document.querySelector("#mainContent").innerHTML = "";
@@ -77,6 +71,7 @@ app.showGames = function (data) {
 
 app.init = function () {
     app.userInput();
+    app.fetchData(app.apiQuery);
 };
 
 app.init();
